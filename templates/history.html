@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transaction History - LMS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Book Issue/Return History</h2>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-link">← Back to Dashboard</a>
+
+    {% if history %}
+      <table class="table table-striped mt-4">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Book ID</th>
+            <th>Action</th>
+            <th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in history %}
+            <tr>
+              <td>{{ entry.id }}</td>
+              <td>{{ entry.book_id }}</td>
+              <td>{{ entry.action.capitalize() }}</td>
+              <td>{{ entry.timestamp }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-warning mt-4">No history records found.</div>
+    {% endif %}
+  </div>
+  <br><br><br><br><br><br><br><br><br><br><br>
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+  <div class="container">
+    <p class="mb-0">&copy; 2025 Library Management System. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

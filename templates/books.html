@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Books - LMS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #availabilityMsg {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .available {
+      color: green;
+    }
+    .not-available {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Available Books</h2>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-link mb-3">← Back to Dashboard</a>
+    <a href="{{ url_for('add_book') }}" class="btn btn-primary mb-3">Add Book</a>
+    <!-- Search Form -->
+    <form onsubmit="return showAvailabilityMessage(event)">
+      
+      <!-- Book Title -->
+      <div class="mb-3">
+        <label>Title</label>
+        <select class="form-select" id="title" required>
+          <option selected disabled>Choose title</option>
+          <option value="Python">Python</option>
+          <option value="Java">Java</option>
+          <option value="Data Structures">Data Structures</option>
+        </select>
+      </div>
+
+      <!-- Book ID -->
+      <div class="mb-3">
+        <label>Book ID</label>
+        <select class="form-select" id="bookId" required>
+          <option selected disabled>Choose a book id</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      
+      <!-- Author -->
+      <div class="mb-3">
+        <label>Author</label>
+        <select class="form-select" id="author" required>
+          <option selected disabled>Choose author</option>
+          <!-- Python authors -->
+          <option value="Guido van Rossum">Guido van Rossum</option>
+          <option value="Mark Lutz">Mark Lutz</option>
+          <option value="Eric Matthes">Eric Matthes</option>
+          <option value="Al Sweigart">Al Sweigart</option>
+          <option value="Luciano Ramalho">Luciano Ramalho</option>
+          <!-- Java authors -->
+          <option value="James Gosling">James Gosling</option>
+          <option value="Herbert Schildt">Herbert Schildt</option>
+          <option value="Kathy Sierra & Bert Bates">Kathy Sierra & Bert Bates</option>
+          <option value="Cay S. Horstmann">Cay S. Horstmann</option>
+          <option value="Joshua Bloch">Joshua Bloch</option>
+          <!-- DS authors -->
+          <option value="Robert Lafore">Robert Lafore</option>
+          <option value="Seymour Lipschutz">Seymour Lipschutz</option>
+          <option value="Narasimha Karumanchi">Narasimha Karumanchi</option>
+          <option value="Mark Allen Weiss">Mark Allen Weiss</option>
+          <option value="Thomas H. Cormen">Thomas H. Cormen</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div id="availabilityMsg"></div>
+  </div>
+
+  <!-- Availability Script -->
+  <script>
+    function showAvailabilityMessage(event) {
+      event.preventDefault();
+
+      const bookId = document.getElementById('bookId').value;
+      const title = document.getElementById('title').value;
+      const author = document.getElementById('author').value;
+      const msg = document.getElementById('availabilityMsg');
+
+      const validCombinations = {
+        "1": {
+          title: "Python",
+          authors: ["Guido van Rossum", "Mark Lutz", "Eric Matthes", "Al Sweigart", "Luciano Ramalho"]
+        },
+        "2": {
+          title: "Java",
+          authors: ["James Gosling", "Herbert Schildt", "Kathy Sierra & Bert Bates", "Cay S. Horstmann", "Joshua Bloch"]
+        },
+        "3": {
+          title: "Data Structures",
+          authors: ["Robert Lafore", "Seymour Lipschutz", "Narasimha Karumanchi", "Mark Allen Weiss", "Thomas H. Cormen"]
+        }
+      };
+
+      if (
+        validCombinations[bookId] &&
+        validCombinations[bookId].title === title &&
+        validCombinations[bookId].authors.includes(author)
+      ) {
+        msg.innerText = `Book is available`;
+        msg.className = "available";
+      } else {
+        msg.innerText = `Book is not available`;
+        msg.className = "not-available";
+      }
+
+      return false;
+    }
+  </script>
+
+  <!-- Auto Book ID from Title Script -->
+  <script>
+    const titleSelect = document.getElementById("title");
+    const bookIdSelect = document.getElementById("bookId");
+
+    const titleToBookId = {
+      "Python": "1",
+      "Java": "2",
+      "Data Structures": "3"
+    };
+
+    titleSelect.addEventListener("change", function () {
+      const selectedTitle = this.value;
+      const correspondingBookId = titleToBookId[selectedTitle];
+
+      for (let option of bookIdSelect.options) {
+        if (option.value === correspondingBookId) {
+          option.selected = true;
+          break;
+        }
+      }
+    });
+  </script>
+  <br><br><br><br><br><br><br><br><br><br><br>
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+  <div class="container">
+    <p class="mb-0">&copy; 2025 Library Management System. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

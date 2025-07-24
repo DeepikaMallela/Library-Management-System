@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+header {
+    background-color: black;
+}
+h1 {
+    color: white;
+}
+
+h2 {
+    background-color: white;
+    color: #0b0b0b;
+    width: 100%;
+}
+login {
+    background-color: rgb(234, 237, 237);
+    color: black;
+    
+}
+
+.container {
+    max-width: 800px;
+}
+footer {
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
